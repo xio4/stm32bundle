@@ -73,7 +73,7 @@ LIBDIR = $(BASE)/lib
 OBJDIR = $(BASE)/obj
 EXEDIR = $(BASE)/bin
 LSTDIR = $(BASE)/lst
-PRJDIR = $(BASE)/prj
+LDDIR = $(BASE)/ld
 BAKDIR = $(BASE)/bak
 
 #files
@@ -85,8 +85,8 @@ LSS = $(LSTDIR)/$(TARGET).lss
 OK = $(EXEDIR)/$(TARGET).ok
 
 # linker script (chip dependent)
-# LD_SCRIPT = $(PRJDIR)/$(CHIP).ld
-LD_SCRIPT = $(PRJDIR)/stm32f103c8t6.ld
+# LD_SCRIPT = $(LDDIR)/$(CHIP).ld
+LD_SCRIPT = $(LDDIR)/stm32_flash.ld
 
 # scmRTOS dir
 #SCMDIR = ../scmRTOS
@@ -121,7 +121,7 @@ OBJS := $(patsubst %, $(OBJDIR)/%, $(OBJS))
 #files to archive
 ARCFILES = \
 $(SRCDIR) \
-$(PRJDIR) \
+$(LDDIR) \
 $(SCMDIR) \
 $(BASE)/Makefile \
 $(BASE)/.cproject \
@@ -170,6 +170,7 @@ CXXFLAGS += -Wshadow -Wcast-qual -Wcast-align -pedantic
 LD_FLAGS = -mcpu=$(MCU)
 LD_FLAGS += -mthumb
 LD_FLAGS += -nostartfiles
+LD_FLAGS += -L$(LDDIR)
 LD_FLAGS += -Wl,-Map="$(MAP)",--cref
 LD_FLAGS += -Wl,--gc-sections
 LD_FLAGS += -T$(LD_SCRIPT)
